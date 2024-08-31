@@ -1,0 +1,15 @@
+.fab-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+  }
+.mat-fab.mat-primary {
+    background-color: #3880ff; /* Color azul de Ionic */
+    width: 56px; /* Tamaño estándar para FAB */
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+} 
