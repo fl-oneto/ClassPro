@@ -1,0 +1,7 @@
+{
+  "name": "ClassPro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
