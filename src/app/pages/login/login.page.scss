@@ -1,0 +1,53 @@
+.login-content {
+    --background: linear-gradient(to bottom right, #4e54c8, #8f94fb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .login-container {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  ion-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  ion-card-title {
+    text-align: center;
+    font-size: 1.4rem;
+  }
+  
+  .login-subtitle {
+    text-align: center;
+    color: #6b6b6b;
+    margin-bottom: 20px;
+  }
+  
+  ion-item {
+    --background: transparent;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    border-radius: 8px;
+    background: #4e54c8;
+  }
+  
+  ion-button:hover {
+    background: #3b3fb2;
+  }
+  
