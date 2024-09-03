@@ -9,68 +9,230 @@
 
 <ion-content>
   <mat-tab-group>
-    <mat-tab label="Lunes"> 
-      <!-- Asignatura 1 -->
-      <ion-card color="primary" (click)="toggleExpand('asignatura1Lunes')" [ngClass]="{'expanded': expandedCard === 'asignatura1Lunes'}">
-        <ion-card-header>
-          <ion-card-title>Asignatura 1</ion-card-title>
-          <ion-card-subtitle>8:00 - 9:20</ion-card-subtitle>
-        </ion-card-header>
-      
-        <ion-card-content *ngIf="expandedCard === 'asignatura1Lunes'">
-          Sala: <br>
-          Profesor: 
-        </ion-card-content>
-      </ion-card>
-
-      <!-- Asignatura 2 -->
-      <ion-card color="success" (click)="toggleExpand('asignatura2Lunes')" [ngClass]="{'expanded': expandedCard === 'asignatura2Lunes'}">
-        <ion-card-header>
-          <ion-card-title>Asignatura 2</ion-card-title>
-          <ion-card-subtitle>9:30 - 11:00</ion-card-subtitle>
-        </ion-card-header>
-      
-        <ion-card-content *ngIf="expandedCard === 'asignatura2Lunes'">
-          Sala: <br>
-          Profesor: 
-        </ion-card-content>
-      </ion-card>
+    <!-- Tabs para cada día de la semana -->
+    <mat-tab label="Lunes">
+      <div *ngFor="let subject of getSubjectsForDay('Lunes')">
+        <ion-card [color]="subject.color" (click)="toggleExpand(subject.name)" [ngClass]="{'expanded': expandedCard === subject.name}">
+          <ion-card-header>
+            <ion-card-title>{{ subject.name }}</ion-card-title>
+            <ion-card-subtitle>{{ subject.startTime | date:'HH:mm' }} - {{ subject.endTime | date:'HH:mm' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Sala: {{ subject.room }} <br>
+            Profesor: {{ subject.teacher }}
+          </ion-card-content>
+          <ion-card-content *ngIf="expandedCard === subject.name">
+            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+            <ion-button color="danger" (click)="deleteSubject(subject)">Eliminar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </mat-tab>
 
-    <mat-tab label="Martes"> 
-      <p>Nada para este día.</p>
+    <!-- Repite los mismos bloques para Martes, Miércoles, Jueves y Viernes -->
+    
+    <mat-tab label="Martes">
+      <div *ngFor="let subject of getSubjectsForDay('Martes')">
+        <ion-card [color]="subject.color" (click)="toggleExpand(subject.name)" [ngClass]="{'expanded': expandedCard === subject.name}">
+          <ion-card-header>
+            <ion-card-title>{{ subject.name }}</ion-card-title>
+            <ion-card-subtitle>{{ subject.startTime | date:'HH:mm' }} - {{ subject.endTime | date:'HH:mm' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Sala: {{ subject.room }} <br>
+            Profesor: {{ subject.teacher }}
+          </ion-card-content>
+          <ion-card-content *ngIf="expandedCard === subject.name">
+            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+            <ion-button color="danger" (click)="deleteSubject(subject)">Eliminar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </mat-tab>
 
-    <mat-tab label="Miércoles"> 
-      <p>Nada para este día.</p>  
+    <mat-tab label="Miércoles">
+      <div *ngFor="let subject of getSubjectsForDay('Miércoles')">
+        <ion-card [color]="subject.color" (click)="toggleExpand(subject.name)" [ngClass]="{'expanded': expandedCard === subject.name}">
+          <ion-card-header>
+            <ion-card-title>{{ subject.name }}</ion-card-title>
+            <ion-card-subtitle>{{ subject.startTime | date:'HH:mm' }} - {{ subject.endTime | date:'HH:mm' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Sala: {{ subject.room }} <br>
+            Profesor: {{ subject.teacher }}
+          </ion-card-content>
+          <ion-card-content *ngIf="expandedCard === subject.name">
+            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+            <ion-button color="danger" (click)="deleteSubject(subject)">Eliminar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </mat-tab>
 
-    <mat-tab label="Jueves"> 
-      <p>Nada para este día.</p>  
+    <mat-tab label="Jueves">
+      <div *ngFor="let subject of getSubjectsForDay('Jueves')">
+        <ion-card [color]="subject.color" (click)="toggleExpand(subject.name)" [ngClass]="{'expanded': expandedCard === subject.name}">
+          <ion-card-header>
+            <ion-card-title>{{ subject.name }}</ion-card-title>
+            <ion-card-subtitle>{{ subject.startTime | date:'HH:mm' }} - {{ subject.endTime | date:'HH:mm' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Sala: {{ subject.room }} <br>
+            Profesor: {{ subject.teacher }}
+          </ion-card-content>
+          <ion-card-content *ngIf="expandedCard === subject.name">
+            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+            <ion-button color="danger" (click)="deleteSubject(subject)">Eliminar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </mat-tab>
 
-    <mat-tab label="Viernes"> 
-      <p>Nada para este día.</p>  
+    <mat-tab label="Viernes">
+      <div *ngFor="let subject of getSubjectsForDay('Viernes')">
+        <ion-card [color]="subject.color" (click)="toggleExpand(subject.name)" [ngClass]="{'expanded': expandedCard === subject.name}">
+          <ion-card-header>
+            <ion-card-title>{{ subject.name }}</ion-card-title>
+            <ion-card-subtitle>{{ subject.startTime | date:'HH:mm' }} - {{ subject.endTime | date:'HH:mm' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Sala: {{ subject.room }} <br>
+            Profesor: {{ subject.teacher }}
+          </ion-card-content>
+          <ion-card-content *ngIf="expandedCard === subject.name">
+            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+            <ion-button color="danger" (click)="deleteSubject(subject)">Eliminar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </mat-tab>
+
   </mat-tab-group>
 
   <div class="ion-page">
-    <button mat-fab color="primary" aria-label="Agregar nuevo horario" class="fab-button" id="open-modal" expand="block">
+    <!-- Botón para agregar asignatura -->
+    <button mat-fab color="primary" aria-label="Agregar asignatura" class="fab-button" (click)="openAddModal()">
       <mat-icon>add</mat-icon>
     </button>
     
-    <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+    <!-- Modal para agregar nueva asignatura -->
+    <ion-modal [isOpen]="isAddModalOpen" (didDismiss)="closeAddModal()">
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Modal</ion-title>
+            <ion-title>Agregar Nueva Asignatura</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="modal.dismiss()">Close</ion-button>
+              <ion-button (click)="closeAddModal()">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <p>You will be prompted when closing this modal.</p>
+          <ion-item>
+            <ion-label position="floating">Día</ion-label>
+            <ion-select [(ngModel)]="newSubject.day">
+              <ion-select-option value="Lunes">Lunes</ion-select-option>
+              <ion-select-option value="Martes">Martes</ion-select-option>
+              <ion-select-option value="Miércoles">Miércoles</ion-select-option>
+              <ion-select-option value="Jueves">Jueves</ion-select-option>
+              <ion-select-option value="Viernes">Viernes</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Nombre de la Asignatura</ion-label>
+            <ion-input [(ngModel)]="newSubject.name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Horario de Inicio</ion-label>
+            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.startTime"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Horario de Término</ion-label>
+            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.endTime"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Sala</ion-label>
+            <ion-input [(ngModel)]="newSubject.room"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Profesor</ion-label>
+            <ion-input [(ngModel)]="newSubject.teacher"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Color de la Asignatura</ion-label>
+            <ion-select [(ngModel)]="newSubject.color">
+              <ion-select-option value="primary">Azul (Primary)</ion-select-option>
+              <ion-select-option value="secondary">Verde (Secondary)</ion-select-option>
+              <ion-select-option value="tertiary">Aqua (Tertiary)</ion-select-option>
+              <ion-select-option value="success">Verde (Success)</ion-select-option>
+              <ion-select-option value="warning">Amarillo (Warning)</ion-select-option>
+              <ion-select-option value="danger">Rojo (Danger)</ion-select-option>
+              <ion-select-option value="light">Blanco (Light)</ion-select-option>
+              <ion-select-option value="medium">Gris (Medium)</ion-select-option>
+              <ion-select-option value="dark">Negro (Dark)</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button expand="block" (click)="addNewSubject()">Agregar</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Modal para editar asignatura existente -->
+    <ion-modal [isOpen]="isEditModalOpen" (didDismiss)="closeEditModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Editar Asignatura</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeEditModal()">Cerrar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Día</ion-label>
+            <ion-select [(ngModel)]="selectedSubject.day">
+              <ion-select-option value="Lunes">Lunes</ion-select-option>
+              <ion-select-option value="Martes">Martes</ion-select-option>
+              <ion-select-option value="Miércoles">Miércoles</ion-select-option>
+              <ion-select-option value="Jueves">Jueves</ion-select-option>
+              <ion-select-option value="Viernes">Viernes</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Nombre de la Asignatura</ion-label>
+            <ion-input [(ngModel)]="selectedSubject.name"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Horario de Inicio</ion-label>
+            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="selectedSubject.startTime"></ion-datetime>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Horario de Término</ion-label>
+            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="selectedSubject.endTime"></ion-datetime>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Sala</ion-label>
+            <ion-input [(ngModel)]="selectedSubject.room"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Profesor</ion-label>
+            <ion-input [(ngModel)]="selectedSubject.teacher"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="selectedSubject">
+            <ion-label position="floating">Color de la Asignatura</ion-label>
+            <ion-select [(ngModel)]="selectedSubject.color">
+              <ion-select-option value="primary">Azul (Primary)</ion-select-option>
+              <ion-select-option value="secondary">Verde (Secondary)</ion-select-option>
+              <ion-select-option value="tertiary">Aqua (Tertiary)</ion-select-option>
+              <ion-select-option value="success">Verde (Success)</ion-select-option>
+              <ion-select-option value="warning">Amarillo (Warning)</ion-select-option>
+              <ion-select-option value="danger">Rojo (Danger)</ion-select-option>
+              <ion-select-option value="light">Blanco (Light)</ion-select-option>
+              <ion-select-option value="medium">Gris (Medium)</ion-select-option>
+              <ion-select-option value="dark">Negro (Dark)</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button expand="block" (click)="saveEditedSubject()">Guardar Cambios</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>
