@@ -1,137 +1,150 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-horario',
   templateUrl: './horario.page.html',
   styleUrls: ['./horario.page.scss'],
 })
-export class HorarioPage {
+export class HorarioPage implements OnInit {
+  subjects: Subject[] = [];
 
   expandedCard: string | null = null;
-  presentingElement: Element | null = null;
+  isAddModalOpen: boolean = false;  
+  newSubject: Subject = this.initializeNewSubject();  
+  isEditModalOpen: boolean = false;  
+  selectedSubject: Subject | null = null;  
 
-  isChoiceModalOpen = false;
-  isAddModalOpen = false;
-  isEditModalOpen = false;
-
-  subjects: { name: string; day: string; startTime: string; endTime: string; room: string; teacher: string; color: string; }[] = [];
-
-  newSubject = {
-    name: '',
-    day: 'Lunes',
-    startTime: '',
-    endTime: '',
-    room: '',
-    teacher: '',
-    color: 'primary'
-  };
-
-  selectedSubject: { name: string; day: string; startTime: string; endTime: string; room: string; teacher: string; color: string; } | null = null;
-
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.presentingElement = document.querySelector('.ion-page');
+    this.loadSubjects();  
   }
 
-  toggleExpand(card: string) {
-    this.expandedCard = this.expandedCard === card ? null : card;
+  toggleExpand(subjectName: string) {
+    this.expandedCard = this.expandedCard === subjectName ? null : subjectName;
   }
 
-  openChoiceModal() {
-    this.isChoiceModalOpen = true;
+  getSubjectsForDay(day: string): Subject[] {
+    return this.subjects
+      .filter(subject => subject.day === day)
+      .sort((a, b) => this.compareTimes(a.startTime, b.startTime)); // Orden automático
   }
 
-  closeChoiceModal() {
-    this.isChoiceModalOpen = false;
+  compareTimes(time1: string, time2: string): number {
+    const [hours1, minutes1] = time1.split(':').map(Number);
+    const [hours2, minutes2] = time2.split(':').map(Number);
+
+    if (hours1 !== hours2) {
+      return hours1 - hours2;
+    }
+    return minutes1 - minutes2;
+  }
+
+  sortSubjects() {
+    this.subjects.sort((a, b) => this.compareTimes(a.startTime, b.startTime));
+    this.subjects = [...this.subjects]; // Forzar la detección de cambios
+    this.cdr.detectChanges(); // Asegurar que la vista se actualiza
   }
 
   openAddModal() {
-    this.closeChoiceModal();
     this.isAddModalOpen = true;
   }
 
   closeAddModal() {
     this.isAddModalOpen = false;
+    this.newSubject = this.initializeNewSubject();
   }
 
-  openEditModal(subject: any) {
-    this.selectedSubject = subject;
+  addNewSubject() {
+    this.subjects.push(this.newSubject);
+    this.sortSubjects();  // Ordenar automáticamente después de añadir
+    this.saveSubjects();  
+    this.closeAddModal();
+  }
+
+  openEditModal(subject: Subject) {
+    this.selectedSubject = { ...subject };
     this.isEditModalOpen = true;
   }
 
   closeEditModal() {
     this.isEditModalOpen = false;
-  }
-
-  addNewSubject() {
-    this.subjects.push({ ...this.newSubject });
-    this.sortSubjects(); // Asegura que siempre se ordenen después de agregar
-    this.clearNewSubject();
-    this.closeAddModal();
-  }
-
-  clearNewSubject() {
-    this.newSubject = {
-      name: '',
-      day: 'Lunes',
-      startTime: '',
-      endTime: '',
-      room: '',
-      teacher: '',
-      color: 'primary'
-    };
+    this.selectedSubject = null;
   }
 
   saveEditedSubject() {
-    this.sortSubjects(); // Asegura que siempre se ordenen después de editar
-    this.closeEditModal();
+    if (this.selectedSubject) {
+      const index = this.subjects.findIndex(s => s.name === this.selectedSubject!.name);
+      if (index !== -1) {
+        this.subjects[index] = this.selectedSubject;
+      }
+      this.sortSubjects();  // Ordenar automáticamente después de editar
+      this.saveSubjects();  
+      this.closeEditModal();
+    }
   }
 
-  async deleteSubject(subject: any) {
+  async confirmDeleteSubject(subject: Subject) {
     const alert = await this.alertController.create({
-      header: 'Confirmar eliminación',
+      header: 'Confirmar Eliminación',
       message: `¿Estás seguro de que deseas eliminar la asignatura "${subject.name}"?`,
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel'
+          role: 'cancel',
+          cssClass: 'secondary',
         },
         {
           text: 'Eliminar',
-          role: 'destructive',
           handler: () => {
-            this.subjects = this.subjects.filter(s => s !== subject);
-            this.sortSubjects(); // Asegura que siempre se ordenen después de eliminar
-          }
-        }
-      ]
+            this.deleteSubject(subject);
+          },
+        },
+      ],
     });
 
     await alert.present();
   }
 
-  getSubjectsForDay(day: string) {
-    return this.subjects
-      .filter(s => s.day === day)
-      .sort((a, b) => this.compareTimes(a.startTime, b.startTime)); // Ordenar de menor a mayor
+  deleteSubject(subject: Subject) {
+    this.subjects = this.subjects.filter(s => s !== subject);
+    this.sortSubjects();  // Ordenar automáticamente después de eliminar
+    this.saveSubjects();  
   }
 
-  compareTimes(time1: string, time2: string): number {
-    // Convierte las horas a minutos desde la medianoche para comparación precisa
-    const totalMinutes1 = this.convertTimeToMinutes(time1);
-    const totalMinutes2 = this.convertTimeToMinutes(time2);
-
-    return totalMinutes1 - totalMinutes2; // Ordenar de menor a mayor
+  initializeNewSubject(): Subject {
+    return {
+      day: '',
+      name: '',
+      startTime: '',
+      endTime: '',
+      room: '',
+      teacher: '',
+      color: '',
+    };
   }
 
-  convertTimeToMinutes(time: string): number {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
+  saveSubjects() {
+    localStorage.setItem('subjects', JSON.stringify(this.subjects));
   }
 
-  sortSubjects() {
-    this.subjects.sort((a, b) => this.compareTimes(a.startTime, b.startTime)); // Ordenar de menor a mayor
+  loadSubjects() {
+    const subjects = localStorage.getItem('subjects');
+    if (subjects) {
+      this.subjects = JSON.parse(subjects);
+      this.sortSubjects(); // Ordenar automáticamente después de cargar
+    }
   }
+}
+
+interface Subject {
+  day: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+  room: string;
+  teacher: string;
+  color: string;
 }
