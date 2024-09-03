@@ -8,6 +8,7 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class HorarioPage implements OnInit {
   presentingElement: Element | null = null;
+  expandedCard: string | null = null;
 
   constructor(private actionSheetCtrl: ActionSheetController) { }
 
@@ -34,4 +35,11 @@ export class HorarioPage implements OnInit {
     const { role } = await actionSheet.onWillDismiss();
     return role === 'confirm';
   };
+  toggleExpand(card: string) {
+    if (this.expandedCard === card) {
+      this.expandedCard = null;
+    } else {
+      this.expandedCard = card;
+    }
+  }
 }

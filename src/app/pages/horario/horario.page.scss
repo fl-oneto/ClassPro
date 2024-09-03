@@ -1,15 +1,28 @@
+ion-header {
+  --background: #f8f8f8;
+}
+
 .fab-button {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 1000;
-  }
-.mat-fab.mat-primary {
-    background-color: #3880ff; /* Color azul de Ionic */
-    width: 56px; /* Tamaño estándar para FAB */
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
-} 
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
+ion-card {
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  overflow: hidden;
+  max-height: 80px;
+}
+
+ion-card.expanded {
+  max-height: 200px;
+  padding: 16px;
+}
+
+ion-card-content {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+ion-card.expanded ion-card-content {
+  opacity: 1;
+}
