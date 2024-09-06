@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'actividades',
     loadChildren: () => import('./pages/actividades/actividades.module').then( m => m.ActividadesPageModule)
+  },  {
+    path: 'bibliografia',
+    loadChildren: () => import('./pages/bibliografia/bibliografia.module').then( m => m.BibliografiaPageModule)
   },
+
 
 
 ];
