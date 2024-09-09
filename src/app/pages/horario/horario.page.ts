@@ -14,12 +14,30 @@ export class HorarioPage implements OnInit {
   isAddModalOpen: boolean = false;  
   newSubject: Subject = this.initializeNewSubject();  
   isEditModalOpen: boolean = false;  
-  selectedSubject: Subject | null = null;  
+  selectedSubject: Subject | null = null;
+  isLoading: boolean = true;
+  progress: number = 0;
+  noDataMessage: string = '';  
 
   constructor(private alertController: AlertController, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.loadSubjects();  
+    this.loadSubjectsWithProgress();
+  }
+
+  loadSubjectsWithProgress() {
+    this.isLoading = true;
+    this.progress = 0;
+
+    const interval = setInterval(() => {
+      this.progress += 0.1; 
+      if (this.progress >= 1) {
+        clearInterval(interval);
+        this.loadSubjects();
+        this.isLoading = false;
+      }
+      this.cdr.detectChanges();
+    }, 100); // Mantenemos la velocidad de animación original
   }
 
   toggleExpand(subjectName: string) {
@@ -134,8 +152,11 @@ export class HorarioPage implements OnInit {
     const subjects = localStorage.getItem('subjects');
     if (subjects) {
       this.subjects = JSON.parse(subjects);
-      this.sortSubjects(); // Ordenar automáticamente después de cargar
+      this.sortSubjects();
+    } else {
+      this.noDataMessage = 'No se ha ingresado ningún horario. ¡Agrega tu primera asignatura!';
     }
+    this.cdr.detectChanges();
   }
 }
 

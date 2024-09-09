@@ -1,3 +1,7 @@
+<div class="loading-container" *ngIf="isLoading">
+  <ion-progress-bar [value]="progress"></ion-progress-bar>
+</div>
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
