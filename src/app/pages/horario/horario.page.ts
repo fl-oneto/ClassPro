@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren} from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, QueryList } from '@angular/core';
+import { AnimationController } from '@ionic/angular';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-horario',
   templateUrl: './horario.page.html',
   styleUrls: ['./horario.page.scss'],
 })
-export class HorarioPage implements OnInit {
+export class HorarioPage implements AfterViewInit {
   subjects: Subject[] = [];
-
   expandedCard: string | null = null;
   isAddModalOpen: boolean = false;  
   newSubject: Subject = this.initializeNewSubject();  
@@ -19,9 +20,11 @@ export class HorarioPage implements OnInit {
   progress: number = 0;
   noDataMessage: string = '';  
 
-  constructor(private alertController: AlertController, private cdr: ChangeDetectorRef) {}
+  constructor(private alertController: AlertController, 
+              private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit called');
     this.loadSubjectsWithProgress();
   }
 
@@ -37,7 +40,7 @@ export class HorarioPage implements OnInit {
         this.isLoading = false;
       }
       this.cdr.detectChanges();
-    }, 100); // Mantenemos la velocidad de animación original
+    }, 100); 
   }
 
   toggleExpand(subjectName: string) {

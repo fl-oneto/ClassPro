@@ -12,7 +12,8 @@
 </ion-header>
 
 <ion-content>
-  <mat-tab-group>
+  <div class="cards-container">
+  <mat-tab-group [style.flex]="1">
     <!-- Tabs para cada día de la semana -->
     <mat-tab label="Lunes">
       <div *ngFor="let subject of getSubjectsForDay('Lunes')">
@@ -25,10 +26,13 @@
             Sala: {{ subject.room }} <br>
             Profesor: {{ subject.teacher }}
           </ion-card-content>
-          <ion-card-content *ngIf="expandedCard === subject.name">
-            <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
-            <ion-button color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button> <!-- Confirmación añadida -->
-          </ion-card-content>
+
+          <ng-container *ngIf="expandedCard === subject.name">
+            <ion-card-content>
+              <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
+              <ion-button class="delete-button" color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
+            </ion-card-content>
+          </ng-container>
         </ion-card>
       </div>
     </mat-tab>
@@ -48,7 +52,7 @@
           </ion-card-content>
           <ion-card-content *ngIf="expandedCard === subject.name">
             <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
-            <ion-button color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
+            <ion-button class="delete-button" color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
           </ion-card-content>
         </ion-card>
       </div>
@@ -67,7 +71,7 @@
           </ion-card-content>
           <ion-card-content *ngIf="expandedCard === subject.name">
             <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
-            <ion-button color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
+            <ion-button class="delete-button" color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
           </ion-card-content>
         </ion-card>
       </div>
@@ -86,7 +90,7 @@
           </ion-card-content>
           <ion-card-content *ngIf="expandedCard === subject.name">
             <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
-            <ion-button color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
+            <ion-button class="delete-button" color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
           </ion-card-content>
         </ion-card>
       </div>
@@ -105,19 +109,22 @@
           </ion-card-content>
           <ion-card-content *ngIf="expandedCard === subject.name">
             <ion-button color="secondary" (click)="openEditModal(subject)">Modificar</ion-button>
-            <ion-button color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
+            <ion-button class="delete-button" color="danger" (click)="confirmDeleteSubject(subject)">Eliminar</ion-button>
           </ion-card-content>
         </ion-card>
       </div>
     </mat-tab>
 
   </mat-tab-group>
+  </div>
 
   <div class="ion-page">
     <!-- Botón para agregar asignatura -->
-    <button mat-fab color="primary" aria-label="Agregar asignatura" class="fab-button" (click)="openAddModal()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="fab-button-container">
+      <button mat-fab color="primary" aria-label="Agregar asignatura" (click)="openAddModal()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
     
     <!-- Modal para agregar nueva asignatura -->
     <ion-modal [isOpen]="isAddModalOpen" (didDismiss)="closeAddModal()">
