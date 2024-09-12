@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'bibliografia',
     loadChildren: () => import('./pages/bibliografia/bibliografia.module').then( m => m.BibliografiaPageModule)
   },
+  {
+    path: 'cambio-password',
+    loadChildren: () => import('./pages/cambio-password/cambio-password.module').then( m => m.CambioPasswordPageModule)
+  },
 
 
 
