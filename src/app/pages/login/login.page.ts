@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
         state: { login: this.login }
       };
       this.router.navigate(['/home'], navigationExtras);
-      this.presentToast("middle", "Bienvenido", 2000);
+      this.presentToast("bottom", "Bienvenido", 1500);
     }
   }
   

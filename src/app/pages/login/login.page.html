@@ -6,26 +6,29 @@
 
 <ion-content [fullscreen]="true" class="login-content">
   <div class="login-container">
-    <ion-card>
-      <ion-card-header>
-        <img alt="Login" src="https://cdn-icons-png.flaticon.com/512/5841/5841802.png" class="login-logo"/>
-        <ion-card-title>Bienvenido</ion-card-title>      
-        <p class="login-subtitle">Por favor, inicia sesión para continuar</p>
-      </ion-card-header>
-  
-      <ion-card-content>
-        <ion-item>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-input label="Usuario" labelPlacement="floating" [(ngModel)]="login.usuario" ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-input label="Contraseña" labelPlacement="floating" type="password" [(ngModel)]="login.password" ></ion-input>
-        </ion-item>
-        <ion-button expand="block" (click)="ingresar()">Iniciar Sesión</ion-button>
-    
-        <ion-router-link [routerLink]="['/cambio-password']">¿Olvidaste tu Contraseña?</ion-router-link>
-      </ion-card-content>
-    </ion-card>
+    <div class="centered-container">
+      <ion-card>
+        <ion-card-header>
+          <img alt="Login" src="https://cdn-icons-png.flaticon.com/512/5841/5841802.png" class="login-logo"/>
+          <ion-card-title>ClassPro</ion-card-title>
+          <p class="login-subtitle">Por favor, inicia sesión para continuar</p>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input label="Usuario" labelPlacement="floating" [(ngModel)]="login.usuario"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input label="Contraseña" labelPlacement="floating" type="password" [(ngModel)]="login.password"></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="ingresar()">Iniciar Sesión</ion-button>
+          <ion-item class="ion-text-center">
+            <ion-router-link [routerLink]="['/cambio-password']">¿Olvidaste tu Contraseña?</ion-router-link>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
