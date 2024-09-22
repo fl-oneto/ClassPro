@@ -4,7 +4,13 @@
       <ion-title>Opciones</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">This is the menu content.</ion-content>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item button [routerLink]="['/horario']">Horario</ion-item>
+      <ion-item button [routerLink]="['/perfil']">Perfil</ion-item>
+      <ion-item button [routerLink]="['/chat']">Chat</ion-item>
+    </ion-list>
+  </ion-content>
 </ion-menu>
 
 <div class="ion-page" id="main-content">
@@ -22,11 +28,11 @@
       <ion-card-content [routerLink]="['/horario']">Horario</ion-card-content>
     </ion-card>
     <ion-card>
-      <ion-card-content [routerLink]="['/actividades']">Próximas Actividades</ion-card-content>
+      <ion-card-content [routerLink]="['/perfil']">Perfil</ion-card-content>
     </ion-card>
     <ion-card>
-      <ion-card-content [routerLink]="['/bibliografia']">Bibliografía</ion-card-content>
-    </ion-card> 
+      <ion-card-content [routerLink]="['/chat']">Chat</ion-card-content>
+    </ion-card>
     
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button (click)="goToLogin()">
@@ -34,4 +40,10 @@
       </ion-fab-button>
     </ion-fab>
   </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title>Developed By ClassPro v1.0.0</ion-title>
+    </ion-toolbar>
+  </ion-footer>
 </div>
