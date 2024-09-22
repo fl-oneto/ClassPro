@@ -25,3 +25,14 @@
 #container a {
   text-decoration: none;
 }
+
+ion-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+ion-fab-button {
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}

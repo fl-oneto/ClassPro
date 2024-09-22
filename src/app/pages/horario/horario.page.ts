@@ -47,6 +47,18 @@ export class HorarioPage implements AfterViewInit {
     this.expandedCard = this.expandedCard === subjectName ? null : subjectName;
   }
 
+  initializeNewSubject(): Subject {
+    return {
+      day: '',
+      name: '',
+      startTime: '',
+      endTime: '',
+      room: '',
+      teacher: '',
+      color: '',
+    };
+  }
+
   getSubjectsForDay(day: string): Subject[] {
     return this.subjects
       .filter(subject => subject.day === day)
@@ -54,14 +66,15 @@ export class HorarioPage implements AfterViewInit {
   }
 
   compareTimes(time1: string, time2: string): number {
-    const [hours1, minutes1] = time1.split(':').map(Number);
-    const [hours2, minutes2] = time2.split(':').map(Number);
-
-    if (hours1 !== hours2) {
-      return hours1 - hours2;
+    if (!time1 || !time2) {
+      return 0; 
     }
-    return minutes1 - minutes2;
+    const date1 = new Date(time1);
+    const date2 = new Date(time2);
+  
+    return date1.getTime() - date2.getTime(); 
   }
+  
 
   sortSubjects() {
     this.subjects.sort((a, b) => this.compareTimes(a.startTime, b.startTime));
@@ -83,6 +96,10 @@ export class HorarioPage implements AfterViewInit {
     this.sortSubjects();  // Ordenar automáticamente después de añadir
     this.saveSubjects();  
     this.closeAddModal();
+  }
+
+  isFormValid(): boolean {
+    return this.newSubject.name && this.newSubject.startTime && this.newSubject.color && this.newSubject.day ? true : false;
   }
 
   openEditModal(subject: Subject) {
@@ -135,17 +152,7 @@ export class HorarioPage implements AfterViewInit {
     this.saveSubjects();  
   }
 
-  initializeNewSubject(): Subject {
-    return {
-      day: '',
-      name: '',
-      startTime: '',
-      endTime: '',
-      room: '',
-      teacher: '',
-      color: '',
-    };
-  }
+ 
 
   saveSubjects() {
     localStorage.setItem('subjects', JSON.stringify(this.subjects));
@@ -172,3 +179,4 @@ interface Subject {
   teacher: string;
   color: string;
 }
+

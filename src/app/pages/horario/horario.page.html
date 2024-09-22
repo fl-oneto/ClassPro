@@ -117,15 +117,14 @@
 
   </mat-tab-group>
   </div>
+  <!-- Botón para agregar asignatura -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-  <div class="ion-page">
-    <!-- Botón para agregar asignatura -->
-    <div class="fab-button-container">
-      <button mat-fab color="primary" aria-label="Agregar asignatura" (click)="openAddModal()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-    
+  <div class="ion-page">    
     <!-- Modal para agregar nueva asignatura -->
     <ion-modal [isOpen]="isAddModalOpen" (didDismiss)="closeAddModal()">
       <ng-template>
@@ -139,8 +138,8 @@
         </ion-header>
         <ion-content class="ion-padding">
           <ion-item>
-            <ion-label position="floating">Día</ion-label>
-            <ion-select [(ngModel)]="newSubject.day">
+            <ion-label position="stacked">Día de la Semana *</ion-label>
+            <ion-select [(ngModel)]="newSubject.day" required placeholder="Día">
               <ion-select-option value="Lunes">Lunes</ion-select-option>
               <ion-select-option value="Martes">Martes</ion-select-option>
               <ion-select-option value="Miércoles">Miércoles</ion-select-option>
@@ -149,28 +148,28 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Nombre de la Asignatura</ion-label>
-            <ion-input [(ngModel)]="newSubject.name"></ion-input>
+            <ion-label position="stacked">Nombre de la Asignatura *</ion-label>
+            <ion-input [(ngModel)]="newSubject.name" required placeholder="Nombre"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Horario de Inicio</ion-label>
-            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.startTime"></ion-datetime>
+            <ion-label>Horario de Inicio *</ion-label>
+            <ion-datetime  required placeholder="Selecciona la hora" displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.startTime"></ion-datetime>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Horario de Término</ion-label>
-            <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.endTime"></ion-datetime>
+            <ion-label>Horario de Término *</ion-label>
+            <ion-datetime required placeholder="Selecciona la hora" displayFormat="HH:mm" presentation="time" [(ngModel)]="newSubject.endTime"></ion-datetime>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Sala</ion-label>
+            <ion-label position="stacked">Sala</ion-label>
             <ion-input [(ngModel)]="newSubject.room"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Profesor</ion-label>
+            <ion-label position="stacked">Profesor</ion-label>
             <ion-input [(ngModel)]="newSubject.teacher"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Color de la Asignatura</ion-label>
-            <ion-select [(ngModel)]="newSubject.color">
+            <ion-label position="stacked">Color de la Asignatura *</ion-label>
+            <ion-select [(ngModel)]="newSubject.color" required placeholder="Color">
               <ion-select-option value="primary">Azul</ion-select-option>
               <ion-select-option value="secondary">Verde</ion-select-option>
               <ion-select-option value="tertiary">Aqua</ion-select-option>
@@ -182,7 +181,7 @@
               <ion-select-option value="dark">Negro</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-button expand="block" (click)="addNewSubject()">Agregar</ion-button>
+          <ion-button expand="block" (click)="addNewSubject()" [disabled]="!isFormValid()">Agregar</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>
@@ -200,7 +199,7 @@
         </ion-header>
         <ion-content class="ion-padding">
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Día</ion-label>
+            <ion-label position="stacked">Día</ion-label>
             <ion-select [(ngModel)]="selectedSubject.day">
               <ion-select-option value="Lunes">Lunes</ion-select-option>
               <ion-select-option value="Martes">Martes</ion-select-option>
@@ -210,27 +209,27 @@
             </ion-select>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Nombre de la Asignatura</ion-label>
+            <ion-label position="stacked">Nombre de la Asignatura</ion-label>
             <ion-input [(ngModel)]="selectedSubject.name"></ion-input>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Horario de Inicio</ion-label>
+            <ion-label>Horario de Inicio</ion-label>
             <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="selectedSubject.startTime"></ion-datetime>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Horario de Término</ion-label>
+            <ion-label>Horario de Término</ion-label>
             <ion-datetime displayFormat="HH:mm" presentation="time" [(ngModel)]="selectedSubject.endTime"></ion-datetime>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Sala</ion-label>
+            <ion-label position="stacked">Sala</ion-label>
             <ion-input [(ngModel)]="selectedSubject.room"></ion-input>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Profesor</ion-label>
+            <ion-label position="stacked">Profesor</ion-label>
             <ion-input [(ngModel)]="selectedSubject.teacher"></ion-input>
           </ion-item>
           <ion-item *ngIf="selectedSubject">
-            <ion-label position="floating">Color de la Asignatura</ion-label>
+            <ion-label position="stacked">Color de la Asignatura</ion-label>
             <ion-select [(ngModel)]="selectedSubject.color">
               <ion-select-option value="primary">Azul</ion-select-option>
               <ion-select-option value="secondary">Verde</ion-select-option>
