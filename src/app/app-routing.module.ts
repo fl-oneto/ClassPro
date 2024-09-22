@@ -30,6 +30,14 @@ const routes: Routes = [
     path: 'cambio-password',
     loadChildren: () => import('./pages/cambio-password/cambio-password.module').then( m => m.CambioPasswordPageModule)
   },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
 
 
 
