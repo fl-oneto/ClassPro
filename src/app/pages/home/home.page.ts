@@ -8,7 +8,16 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  constructor(private router: Router) { } 
+  nombreUsuario: string = ''; 
+  
+
+  constructor(private router: Router) { 
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras && navigation.extras.state) {
+      const state = navigation.extras.state as { login: any };
+      this.nombreUsuario = state.login.usuario;
+    }
+  } 
 
   ngOnInit() {
   }
@@ -16,4 +25,5 @@ export class HomePage implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
+
 }

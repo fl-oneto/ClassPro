@@ -49,6 +49,7 @@ export class HorarioPage implements AfterViewInit {
 
   initializeNewSubject(): Subject {
     return {
+      id: this.generateUniqueId(),
       day: '',
       name: '',
       startTime: '',
@@ -57,6 +58,10 @@ export class HorarioPage implements AfterViewInit {
       teacher: '',
       color: '',
     };
+  }
+
+  generateUniqueId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
   getSubjectsForDay(day: string): Subject[] {
@@ -114,12 +119,12 @@ export class HorarioPage implements AfterViewInit {
 
   saveEditedSubject() {
     if (this.selectedSubject) {
-      const index = this.subjects.findIndex(s => s.name === this.selectedSubject!.name);
+      const index = this.subjects.findIndex(s => s.id === this.selectedSubject!.id);
       if (index !== -1) {
         this.subjects[index] = this.selectedSubject;
+        this.sortSubjects();  // Ordenar automáticamente después de editar
+        this.saveSubjects();  
       }
-      this.sortSubjects();  // Ordenar automáticamente después de editar
-      this.saveSubjects();  
       this.closeEditModal();
     }
   }
@@ -171,6 +176,7 @@ export class HorarioPage implements AfterViewInit {
 }
 
 interface Subject {
+  id: string;
   day: string;
   name: string;
   startTime: string;

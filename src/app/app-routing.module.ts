@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
+  {
+    path: 'recuperar-pw',
+    loadChildren: () => import('./pages/recuperar-pw/recuperar-pw.module').then( m => m.RecuperarPwPageModule)
+  },
 
 
 
