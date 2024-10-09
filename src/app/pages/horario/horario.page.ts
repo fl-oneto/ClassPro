@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChildren} from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ChangeDetectorRef, ElementRef, QueryList } from '@angular/core';
-import { AnimationController } from '@ionic/angular';
 import { AfterViewInit } from '@angular/core';
+import { StorageService } from 'src/app/services/storage.service';
+import { Subject } from 'src/app/interfaces/subject';
 
 @Component({
   selector: 'app-horario',
@@ -21,10 +22,10 @@ export class HorarioPage implements AfterViewInit {
   noDataMessage: string = '';  
 
   constructor(private alertController: AlertController, 
-              private cdr: ChangeDetectorRef) {}
+              private cdr: ChangeDetectorRef,
+              private storageService: StorageService) {}
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit called');
     this.loadSubjectsWithProgress();
   }
 
@@ -49,7 +50,7 @@ export class HorarioPage implements AfterViewInit {
 
   initializeNewSubject(): Subject {
     return {
-      id: this.generateUniqueId(),
+      id: '',
       day: '',
       name: '',
       startTime: '',
@@ -60,31 +61,25 @@ export class HorarioPage implements AfterViewInit {
     };
   }
 
-  generateUniqueId(): string {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-  }
-
-  getSubjectsForDay(day: string): Subject[] {
-    return this.subjects
-      .filter(subject => subject.day === day)
-      .sort((a, b) => this.compareTimes(a.startTime, b.startTime)); // Orden automático
-  }
-
-  compareTimes(time1: string, time2: string): number {
-    if (!time1 || !time2) {
-      return 0; 
+  async loadSubjects() {
+    this.subjects = await this.storageService.getSubjects();
+    if (!this.subjects.length) {
+      this.noDataMessage = 'No se ha ingresado ningún horario. ¡Agrega tu primera asignatura!';
     }
-    const date1 = new Date(time1);
-    const date2 = new Date(time2);
-  
-    return date1.getTime() - date2.getTime(); 
+    this.sortSubjects();
+    this.cdr.detectChanges();
   }
-  
 
   sortSubjects() {
     this.subjects.sort((a, b) => this.compareTimes(a.startTime, b.startTime));
     this.subjects = [...this.subjects]; // Forzar la detección de cambios
     this.cdr.detectChanges(); // Asegurar que la vista se actualiza
+  }
+
+  compareTimes(time1: string, time2: string): number {
+    const date1 = new Date(time1);
+    const date2 = new Date(time2);
+    return date1.getTime() - date2.getTime(); 
   }
 
   openAddModal() {
@@ -96,12 +91,12 @@ export class HorarioPage implements AfterViewInit {
     this.newSubject = this.initializeNewSubject();
   }
 
-  addNewSubject() {
-    this.subjects.push(this.newSubject);
-    this.sortSubjects();  // Ordenar automáticamente después de añadir
-    this.saveSubjects();  
+  async addNewSubject() {
+    await this.storageService.addSubject(this.newSubject);
+    this.loadSubjects(); // Recargar asignaturas
     this.closeAddModal();
   }
+
 
   isFormValid(): boolean {
     return this.newSubject.name && this.newSubject.startTime && this.newSubject.color && this.newSubject.day ? true : false;
@@ -117,14 +112,10 @@ export class HorarioPage implements AfterViewInit {
     this.selectedSubject = null;
   }
 
-  saveEditedSubject() {
+  async saveEditedSubject() {
     if (this.selectedSubject) {
-      const index = this.subjects.findIndex(s => s.id === this.selectedSubject!.id);
-      if (index !== -1) {
-        this.subjects[index] = this.selectedSubject;
-        this.sortSubjects();  // Ordenar automáticamente después de editar
-        this.saveSubjects();  
-      }
+      await this.storageService.editSubject(this.selectedSubject);  // Editar asignatura
+      this.loadSubjects();  // Recargar asignaturas
       this.closeEditModal();
     }
   }
@@ -142,7 +133,7 @@ export class HorarioPage implements AfterViewInit {
         {
           text: 'Eliminar',
           handler: () => {
-            this.deleteSubject(subject);
+            this.deleteSubject(subject.id);
           },
         },
       ],
@@ -151,38 +142,16 @@ export class HorarioPage implements AfterViewInit {
     await alert.present();
   }
 
-  deleteSubject(subject: Subject) {
-    this.subjects = this.subjects.filter(s => s !== subject);
-    this.sortSubjects();  // Ordenar automáticamente después de eliminar
-    this.saveSubjects();  
+  async deleteSubject(subjectId: string) {
+    await this.storageService.deleteSubject(subjectId);
+    this.loadSubjects(); // Recargar asignaturas
   }
 
- 
-
-  saveSubjects() {
-    localStorage.setItem('subjects', JSON.stringify(this.subjects));
+  getSubjectsForDay(day: string): Subject[] {
+    return this.subjects
+      .filter(subject => subject.day === day)  // Filtra por el día
+      .sort((a, b) => this.compareTimes(a.startTime, b.startTime)); // Ordena por hora de inicio
   }
 
-  loadSubjects() {
-    const subjects = localStorage.getItem('subjects');
-    if (subjects) {
-      this.subjects = JSON.parse(subjects);
-      this.sortSubjects();
-    } else {
-      this.noDataMessage = 'No se ha ingresado ningún horario. ¡Agrega tu primera asignatura!';
-    }
-    this.cdr.detectChanges();
-  }
-}
-
-interface Subject {
-  id: string;
-  day: string;
-  name: string;
-  startTime: string;
-  endTime: string;
-  room: string;
-  teacher: string;
-  color: string;
 }
 
