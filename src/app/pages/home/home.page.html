@@ -9,13 +9,15 @@
       <ion-avatar class="profile-avatar">
         <img src="assets/img/profile.jpg" alt="Foto de perfil">
       </ion-avatar>
-      <h4 class="profile-name">{{nombreUsuario}}</h4>
+      <!-- Mostrar el nombre del usuario o "Bienvenido" si no está autenticado -->
+      <h4 class="profile-name">{{ nombreUsuario }}</h4>
     </div>
 
     <ion-list>
-      <ion-item button [routerLink]="['/perfil']">Perfil</ion-item>
-      <ion-item button [routerLink]="['/chat']">Chat</ion-item>
-      <ion-item button [routerLink]="['/chat']">Opciones</ion-item>
+      <!-- Enlaces del menú deshabilitados si no esta autenticado -->
+      <ion-item button [routerLink]="['/perfil']" [disabled]="!isAuthenticated">Perfil</ion-item>
+      <ion-item button [routerLink]="['/chat']" [disabled]="!isAuthenticated">Chat</ion-item>
+      <ion-item button [routerLink]="['/cambio-password']" [disabled]="!isAuthenticated">Opciones</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -30,20 +32,22 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="ion-padding"> 
+  <ion-content class="ion-padding">
     <ion-card>
-      <ion-card-content [routerLink]="['/horario']">Horario</ion-card-content>
+      <ion-card-content (click)="navigateTo('horario')">Horario</ion-card-content>
     </ion-card>
     <ion-card>
-      <ion-card-content [routerLink]="['/actividades']">Actividades</ion-card-content>
+      <ion-card-content (click)="navigateTo('actividades')">Actividades</ion-card-content>
     </ion-card>
     <ion-card>
-      <ion-card-content [routerLink]="['/bibliografia']">Bibliografia</ion-card-content>
+      <ion-card-content (click)="navigateTo('bibliografia')">Bibliografía</ion-card-content>
     </ion-card>
-    
+
+    <!-- Botón de logout/login -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="goToLogin()">
-        <ion-icon name="log-out"></ion-icon>
+      <!-- Cambia el color del botón dependiendo del estado de autenticación -->
+      <ion-fab-button [color]="isAuthenticated ? 'success' : 'danger'" (click)="handleAuthButton()">
+        <ion-icon [name]="isAuthenticated ? 'log-out' : 'log-in'"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </ion-content>

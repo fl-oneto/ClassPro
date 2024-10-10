@@ -1,56 +1,57 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'horario',
-    loadChildren: () => import('./pages/horario/horario.module').then( m => m.HorarioPageModule)
+    loadChildren: () => import('./pages/horario/horario.module').then(m => m.HorarioPageModule)
   },
   {
     path: 'actividades',
-    loadChildren: () => import('./pages/actividades/actividades.module').then( m => m.ActividadesPageModule)
-  },  {
-    path: 'bibliografia',
-    loadChildren: () => import('./pages/bibliografia/bibliografia.module').then( m => m.BibliografiaPageModule)
+    loadChildren: () => import('./pages/actividades/actividades.module').then(m => m.ActividadesPageModule)
   },
   {
-    path: 'cambio-password',
-    loadChildren: () => import('./pages/cambio-password/cambio-password.module').then( m => m.CambioPasswordPageModule)
+    path: 'bibliografia',
+    loadChildren: () => import('./pages/bibliografia/bibliografia.module').then(m => m.BibliografiaPageModule)
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./pages/perfil/perfil.module').then(m => m.PerfilPageModule),
+    canActivate: [AuthGuard]  // Ruta protegida
   },
   {
     path: 'chat',
-    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'recuperar-pw',
-    loadChildren: () => import('./pages/recuperar-pw/recuperar-pw.module').then( m => m.RecuperarPwPageModule)
+    path: 'cambio-password',
+    loadChildren: () => import('./pages/cambio-password/cambio-password.module').then(m => m.CambioPasswordPageModule),
+    canActivate: [AuthGuard]
   },
-
-
-
+  {
+    path: '**',
+    redirectTo: 'home'
+  }
 ];
 
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

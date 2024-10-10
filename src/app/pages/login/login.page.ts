@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -8,61 +9,43 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  //modelo login que permita obtener la info. de usuario y password
-  login:any={
-    usuario:"",
-    password:""
-  }
-  //variable para obtener el nombre del campo vacío
-  field:string="";
-  constructor(public router: Router,public toastController:ToastController) { }
 
-  ngOnInit() {
-  }
+  login: any = {
+    usuario: '',
+    password: ''
+  };
 
-  ingresar() {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastController: ToastController
+  ) { }
+
+  ngOnInit() {}
+  async ingresar() {
     if (this.validateModel(this.login)) {
-      // Si el modelo es válido, navegar a la página de inicio
-      let navigationExtras: NavigationExtras = {
-        state: { login: this.login }
-      };
-      this.router.navigate(['/home'], navigationExtras);
-      this.presentToast("bottom", "Bienvenido", 1500);
+      const token = 'dummy-token';
+      const nombreUsuario = this.login.usuario;
+
+      await this.authService.login(token, nombreUsuario);
+      this.presentToast('top', 'Inicio de sesión exitoso', 1500);
+
+      this.router.navigate(['/home']);
+    } else {
+      this.presentToast('top', 'Por favor, ingresa usuario y contraseña', 1500);
     }
   }
-  
+
+  // Valida el inicio de sesión
   validateModel(model: any) {
-    for (var [key, value] of Object.entries(model)) {
-      const stringValue = value as string;
-  
-      if (key === 'password') {
-        if (stringValue === "") {
-          this.presentToast("middle", "El campo password no puede estar vacío.");
-          return false;
-        } else if (stringValue.length < 8) {
-          this.presentToast("middle", "La contraseña debe tener al menos 8 caracteres.");
-          return false;
-        }
-      } else if (stringValue === "") {
-        this.presentToast("middle", "El campo " + key + " no puede estar vacío.");
-        return false;
-      }
-    }
-    return true;
+    return model.usuario !== '' && model.password !== '';
   }
-  
-  
-
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', msg:string, duration?:number) {
+  async presentToast(position: 'top' | 'middle' | 'bottom', msg: string, duration?: number) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: duration?duration:2500,
+      duration: duration ? duration : 2500,
       position: position,
     });
-
     await toast.present();
   }
-
 }
-
