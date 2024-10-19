@@ -2,14 +2,7 @@
   <ion-progress-bar [value]="progress"></ion-progress-bar>
 </div>
 
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button text="Volver" [defaultHref]="'/home'"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Horario</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Horario" [showBackButton]="true" [defaultHref]="'/home'"></app-header>
 
 <ion-content>
   <div class="cards-container">
