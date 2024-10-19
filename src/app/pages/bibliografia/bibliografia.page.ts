@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-bibliografia',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bibliografia.page.scss'],
 })
 export class BibliografiaPage implements OnInit {
-
-  constructor() { }
+  libros: any[] = [];
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.apiService.getBooks().subscribe((data) => {
+      this.libros = data;
+      console.log(this.libros); // Para asegurarte de que estás recibiendo los datos
+    });
   }
 
 }

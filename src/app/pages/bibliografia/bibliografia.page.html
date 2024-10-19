@@ -1,16 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button text="Volver" [defaultHref]="'/home'"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Bibliografía</ion-title>
+    <ion-title>
+      Bibliografía
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">bibliografia</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list *ngIf="libros && libros.length > 0; else noBooks">
+    <!-- Iterar sobre los libros y mostrar su información -->
+    <ion-item *ngFor="let libro of libros">
+      <ion-label>
+        <h2>{{ libro.title }}</h2>
+        <p><strong>Autor:</strong> {{ libro.author }}</p>
+        <p><strong>Edición:</strong> {{ libro.edition }}</p>
+        <p><strong>Categoría:</strong> {{ libro.category }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Mostrar un mensaje si no hay libros -->
+  <ng-template #noBooks>
+    <div class="ion-text-center">
+      <p>No se encontraron libros disponibles.</p>
+    </div>
+  </ng-template>
 </ion-content>
