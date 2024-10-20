@@ -9,10 +9,16 @@
     <ion-label>Categoría</ion-label>
     <ion-select [(ngModel)]="selectedCategory" (ionChange)="applyFilters()">
       <ion-select-option value="">Todas</ion-select-option>
+      <ion-select-option value="Biología">Biología</ion-select-option>
+      <ion-select-option value="Estadística">Estadística</ion-select-option>
+      <ion-select-option value="Física">Física</ion-select-option>
+      <ion-select-option value="Inteligencia Artificial">Inteligencia Artificial</ion-select-option>
       <ion-select-option value="Matemáticas">Matemáticas</ion-select-option>
-      <ion-select-option value="Ciencias">Ciencias</ion-select-option>
-      <ion-select-option value="Literatura">Literatura</ion-select-option>
-      <!-- Añade más categorías según tu JSON -->
+      <ion-select-option value="Programación">Programación</ion-select-option>
+      <ion-select-option value="Psicología">Psicología</ion-select-option>
+      
+
+
     </ion-select>
   </ion-item>
 
