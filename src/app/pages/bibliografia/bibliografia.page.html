@@ -1,22 +1,28 @@
-<app-header title="Bibliografía" [showBackButton]="true" [defaultHref]="'/home'"></app-header>
+<ion-header>
+  <app-header title="Bibliografía" [showBackButton]="true" [defaultHref]="'/home'"></app-header>
+</ion-header>
 
 <ion-content>
-  <ion-list *ngIf="libros && libros.length > 0; else noBooks">
-    <!-- Iterar sobre los libros y mostrar su información -->
+  <ion-searchbar [(ngModel)]="keyword" (ionInput)="applyFilters()" placeholder="Buscar por palabra clave"></ion-searchbar>
+  
+  <ion-item>
+    <ion-label>Categoría</ion-label>
+    <ion-select [(ngModel)]="selectedCategory" (ionChange)="applyFilters()">
+      <ion-select-option value="">Todas</ion-select-option>
+      <ion-select-option value="Matemáticas">Matemáticas</ion-select-option>
+      <ion-select-option value="Ciencias">Ciencias</ion-select-option>
+      <ion-select-option value="Literatura">Literatura</ion-select-option>
+      <!-- Añade más categorías según tu JSON -->
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
     <ion-item *ngFor="let libro of libros">
       <ion-label>
         <h2>{{ libro.title }}</h2>
-        <p><strong>Autor:</strong> {{ libro.author }}</p>
-        <p><strong>Edición:</strong> {{ libro.edition }}</p>
-        <p><strong>Categoría:</strong> {{ libro.category }}</p>
+        <p>{{ libro.author }}</p>
+        <p>{{ libro.category }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
-
-  <!-- Mostrar un mensaje si no hay libros -->
-  <ng-template #noBooks>
-    <div class="ion-text-center">
-      <p>No se encontraron libros disponibles.</p>
-    </div>
-  </ng-template>
 </ion-content>
