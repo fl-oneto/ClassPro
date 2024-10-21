@@ -21,8 +21,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/horario/horario.module').then(m => m.HorarioPageModule)
   },
   {
-    path: 'actividades',
-    loadChildren: () => import('./pages/actividades/actividades.module').then(m => m.ActividadesPageModule)
+    path: 'notas',
+    loadChildren: () => import('./pages/notas/actividades.module').then(m => m.ActividadesPageModule)
   },
   {
     path: 'bibliografia',
@@ -47,6 +47,13 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'home'
   }
+  ,
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatPageModule),
+    canActivate: [AuthGuard]
+  },
+  
 ];
 
 

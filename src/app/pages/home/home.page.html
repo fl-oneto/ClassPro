@@ -16,7 +16,6 @@
     <ion-list>
       <!-- Enlaces del menú deshabilitados si no esta autenticado -->
       <ion-item button [routerLink]="['/perfil']" [disabled]="!isAuthenticated">Perfil</ion-item>
-      <ion-item button [routerLink]="['/chat']" [disabled]="!isAuthenticated">Chat</ion-item>
       <ion-item button [routerLink]="['/cambio-password']" [disabled]="!isAuthenticated">Opciones</ion-item>
     </ion-list>
   </ion-content>
@@ -37,7 +36,7 @@
       <ion-card-content (click)="navigateTo('horario')">Horario</ion-card-content>
     </ion-card>
     <ion-card>
-      <ion-card-content (click)="navigateTo('actividades')">Actividades</ion-card-content>
+      <ion-card-content (click)="navigateTo('notas')">Notas</ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-content (click)="navigateTo('bibliografia')">Bibliografía</ion-card-content>

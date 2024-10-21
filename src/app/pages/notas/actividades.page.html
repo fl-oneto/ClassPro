@@ -1,0 +1,32 @@
+<app-header title="Notas" [showBackButton]="true" [defaultHref]="'/home'"></app-header>
+
+<ion-content [fullscreen]="true">
+ <!-- Formulario para agregar nueva nota -->
+ <ion-item>
+  <ion-label position="stacked">Título</ion-label>
+  <ion-input [(ngModel)]="nuevaNota.titulo" placeholder="Escribe el título"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked">Contenido</ion-label>
+  <ion-textarea [(ngModel)]="nuevaNota.contenido" placeholder="Escribe la nota"></ion-textarea>
+</ion-item>
+
+<ion-button expand="block" (click)="addNote()">Guardar Nota</ion-button>
+
+<!-- Listado de notas -->
+<ion-list>
+  <ion-item *ngFor="let nota of notas">
+    <ion-label>
+      <h2>{{ nota.titulo }}</h2>
+      <p>{{ nota.contenido }}</p>
+      <p><small>{{ nota.creadaEn | date: 'short' }}</small></p>
+    </ion-label>
+
+    <!-- Botón para eliminar la nota -->
+    <ion-button color="danger" slot="end" (click)="deleteNote(nota.id)">
+      Eliminar
+    </ion-button>
+  </ion-item>
+</ion-list>
+</ion-content>
