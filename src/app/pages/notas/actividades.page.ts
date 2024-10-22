@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage.service';
 import { Notas } from 'src/app/interfaces/notas';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 
 @Component({
   selector: 'app-actividades',
@@ -22,6 +24,7 @@ export class ActividadesPage implements OnInit {
       titulo: '',
       contenido: '',
       creadaEn: new Date(),
+      imagen: ''
     };
   }
 
@@ -38,6 +41,17 @@ export class ActividadesPage implements OnInit {
   async deleteNote(id: string) {
     await this.storageService.deleteNote(id);
     this.loadNotes();
+  }
+
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64, // Guardamos la imagen en base64
+      source: CameraSource.Camera, 
+    });
+
+    this.nuevaNota.imagen = `data:image/jpeg;base64,${image.base64String}`; // Guardamos la imagen en la nota
   }
 
 }

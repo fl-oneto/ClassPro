@@ -12,6 +12,14 @@
   <ion-textarea [(ngModel)]="nuevaNota.contenido" placeholder="Escribe la nota"></ion-textarea>
 </ion-item>
 
+<!-- Botón para tomar una foto -->
+<ion-button expand="block" (click)="takePicture()">Tomar Foto</ion-button>
+
+<!-- Mostrar la imagen capturada si existe -->
+<div *ngIf="nuevaNota.imagen">
+  <ion-img [src]="nuevaNota.imagen"></ion-img>
+</div>
+
 <ion-button expand="block" (click)="addNote()">Guardar Nota</ion-button>
 
 <!-- Listado de notas -->

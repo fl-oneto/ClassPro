@@ -3,4 +3,5 @@ export interface Notas {
   titulo: string;
   contenido: string;
   creadaEn: Date;
+  imagen?: string;
 }
