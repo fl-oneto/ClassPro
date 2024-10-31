@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -44,18 +45,14 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: '**',
-    redirectTo: 'home'
-  }
-  ,
-  {
-    path: 'chat',
-    loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatPageModule),
-    canActivate: [AuthGuard]
+    path: 'chatbot',
+    component: NotFoundComponent
   },
-  
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
