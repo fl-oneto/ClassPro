@@ -49,7 +49,7 @@
     <!-- Botón de logout/login -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <!-- Cambia el color del botón dependiendo del estado de autenticación -->
-      <ion-fab-button [color]="isAuthenticated ? 'success' : 'danger'" (click)="handleAuthButton()">
+      <ion-fab-button color="danger" (click)="handleAuthButton()">
         <ion-icon [name]="isAuthenticated ? 'log-out' : 'log-in'"></ion-icon>
       </ion-fab-button>
     </ion-fab>

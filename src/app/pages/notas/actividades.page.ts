@@ -47,7 +47,7 @@ export class ActividadesPage implements OnInit {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Base64, // Guardamos la imagen en base64
+      resultType: CameraResultType.Base64, 
       source: CameraSource.Camera, 
     });
 

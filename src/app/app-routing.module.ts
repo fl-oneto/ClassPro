@@ -6,7 +6,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -19,15 +20,18 @@ const routes: Routes = [
   },
   {
     path: 'horario',
-    loadChildren: () => import('./pages/horario/horario.module').then(m => m.HorarioPageModule)
+    loadChildren: () => import('./pages/horario/horario.module').then(m => m.HorarioPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'notas',
-    loadChildren: () => import('./pages/notas/actividades.module').then(m => m.ActividadesPageModule)
+    loadChildren: () => import('./pages/notas/actividades.module').then(m => m.ActividadesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'bibliografia',
-    loadChildren: () => import('./pages/bibliografia/bibliografia.module').then(m => m.BibliografiaPageModule)
+    loadChildren: () => import('./pages/bibliografia/bibliografia.module').then(m => m.BibliografiaPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'perfil',

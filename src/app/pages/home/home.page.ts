@@ -61,8 +61,10 @@ export class HomePage implements OnInit {
         {
           text: 'Sí, cerrar sesión',
           handler: async () => {
-            await this.authService.logout();  // Cierra sesión
+            await this.authService.logout();  
+            this.isAuthenticated = false;  
             this.presentToast('top', 'Sesión cerrada correctamente', 1500);
+            this.router.navigate(['/login']);  // Redirige al login
           }
         }
       ]
