@@ -51,7 +51,7 @@ export class ActividadesPage implements OnInit {
       source: CameraSource.Camera, 
     });
 
-    this.nuevaNota.imagen = `data:image/jpeg;base64,${image.base64String}`; // Guardamos la imagen en la nota
+    this.nuevaNota.imagen = `data:image/jpeg;base64,${image.base64String}`; 
   }
 
 }
