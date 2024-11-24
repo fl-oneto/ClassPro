@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, ToastController } from '@ionic/angular';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-home',
@@ -78,5 +79,17 @@ export class HomePage implements OnInit {
       position: position,
     });
     await toast.present();
+  }
+  async shareApp() {
+    try {
+      await Share.share({
+        title: 'Descubre la app ClassPro',
+        text: '¡Hola! Te recomiendo que pruebes la app ClassPro. Está diseñada para ayudarte a gestionar tu horario, notas, y más.',
+        url: 'https://example.com', // Puedes poner un link a la app si existe
+        dialogTitle: 'Compartir la app ClassPro',
+      });
+    } catch (error) {
+      console.error('Error al compartir:', error);
+    }
   }
 }
