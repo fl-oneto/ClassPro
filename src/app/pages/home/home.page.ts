@@ -85,7 +85,7 @@ export class HomePage implements OnInit {
       await Share.share({
         title: 'Descubre la app ClassPro',
         text: '¡Hola! Te recomiendo que pruebes la app ClassPro. Está diseñada para ayudarte a gestionar tu horario, notas, y más.',
-        url: 'https://example.com', // URL de la app en la Play Store o App Store
+        url: 'https://classpro-web.onrender.com/', // URL de la app en la Play Store o App Store
         dialogTitle: 'Compartir la app ClassPro',
       });
     } catch (error) {
